@@ -2,39 +2,12 @@ sudo: required
 
 matrix:
   include:
-    - language: objective-c
-      os: osx
-      osx_image: xcode7.1
-      script:
-        - grunt nodeunit:common
-    - language: objective-c
-      os: osx
-      osx_image: xcode7.1
-      script:
-        - python lint.py -p ios
     - language: android      
       android:
         components:
           - build-tools-22.0.1
       script:
         - npm test
-    - language: android      
-      android:
-        components:
-          - build-tools-22.0.1
-      install:
-        - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
-        - emulator -avd test -no-skin -no-audio -no-window &
-        - android-wait-for-emulator
-        - adb devices
-      script:
-        - python lint.py -p android -a 32bit
-    - language: android      
-      android:
-        components:
-          - build-tools-22.0.1
-      script:
-        - python lint.py -p android -a 64bit
 
 before_script:
   - if [ $TRAVIS_OS_NAME == "linux" ]; then
